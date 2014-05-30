@@ -7,6 +7,7 @@
 package shot;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -43,7 +44,11 @@ public class Board extends JPanel implements ActionListener {
 
 	private Timer timer;
 	private Ball ball;
+	private String message = "";
+	private boolean win = false;
+	private Font font = new Font("Arial", Font.BOLD, 48);
 	public Logic logic;
+
 	//public Heuristic logic;
 
 	public Board() {
@@ -55,7 +60,7 @@ public class Board extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		logic = new Logic();
 		//logic = new Heuristic();
-		timer = new Timer(5, this);
+		timer = new Timer(1, this);
 		timer.start();
 
 	}
@@ -68,10 +73,17 @@ public class Board extends JPanel implements ActionListener {
 
 		Graphics2D g2d = (Graphics2D)g;
 		for(int i=0;i<4;i++){
-			
+
 
 			g2d.drawImage(logic.balls[i].getImage(), logic.balls[i].dx, logic.balls[i].dy, this);
-			
+
+		}
+
+		if(win)
+		{	
+			g.setFont(font);
+			g.setColor(Color.ORANGE);
+			g.drawString(message, 300, 300);
 		}
 		repaint();
 
@@ -82,8 +94,8 @@ public class Board extends JPanel implements ActionListener {
 
 	public class MouseClick implements MouseListener 
 	{
-		
-		
+
+
 		@Override
 		public void mouseClicked(MouseEvent me) {
 			// TODO Auto-generated method stub
@@ -128,8 +140,9 @@ public class Board extends JPanel implements ActionListener {
 		// definir aqui o movimento
 		//logic.checkplay(logic.game);
 		if(logic.GameOver()){
-			
-			this.hide();			
+			win = true;
+			message = "Winner";
+			repaint();
 		}else{
 			logic.move();
 		}

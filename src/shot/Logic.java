@@ -72,7 +72,7 @@ public class Logic {
 		// 1- sucesso
 		// 2- esperar por jogada
 		// 3- seleccionar bola
-		// 0- jogada inválida
+		// 0- jogada invï¿½lida
 
 		if(!movepriority.isEmpty()){
 			System.out.printf("Erro: Espere pelo fim da jogada\n");
@@ -110,7 +110,7 @@ public class Logic {
 		// 1- sucesso
 
 
-		// 0- jogada inválida
+		// 0- jogada invï¿½lida
 		movepriority.add(i);
 
 
@@ -436,7 +436,7 @@ public class Logic {
 				active++;
 			}
 		}
-		if(active ==1){
+		if(active ==1 && movepriority.isEmpty()){
 			System.out.printf("O jogo acabou\n");
 			return true;
 		}
