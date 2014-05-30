@@ -38,9 +38,9 @@ public class Logic {
 
 
 		balls[0]=new Ball(100,100);		
-		balls[2]=new Ball(500,100);			
-		balls[3]=new Ball(450,650);			
-		balls[1]=new Ball(100,600);	
+		balls[1]=new Ball(300,100);			
+		balls[2]=new Ball(400,100);			
+		balls[3]=new Ball(300,600);	
 
 
 	}
@@ -389,37 +389,31 @@ public class Logic {
 
 	}
 
-	public Map<String, Integer> CountLines(){
+	public Map<Map<String, Integer>,Integer> CountLines(){
 		Map<String, Integer> counter= new HashMap<String, Integer>();
-		//Map<String, Integer> countery= new HashMap<String, Integer>();
-
-		Map<Map<String, Integer>,Integer> countertotal = new HashMap<Map<String, Integer>,Integer>();
-
+		Map<Map<String, Integer>,Integer> countertotal = new HashMap<Map<String, Integer>,Integer>();		
 
 		for(int i =0; i<balls.length; i++){
-			counter.clear();
+			counter= new HashMap<String, Integer>();
 			counter.put("x", balls[i].getX());
-			System.out.println(counter.toString());
 			
-
-			if(!countertotal.containsKey(counter)){
-				
+			if(!countertotal.containsKey(counter)){	
+								
 				countertotal.put(counter, 1);
-				System.out.println(countertotal.toString());
+
 			}else{
-				countertotal.put(counter, countertotal.get(counter)+1);
-				System.out.println(countertotal.toString());
+			
+				countertotal.put(counter, (countertotal.get(counter))+1);
+				
 			}
 			
-			counter.clear();
+			counter= new HashMap<String, Integer>();
 			counter.put("y", balls[i].getY());
-			System.out.println(counter.toString());
+			
 			if(!countertotal.containsKey(counter)){
 				countertotal.put(counter, 1);
-				System.out.println(countertotal.toString());
 			}else{
-				countertotal.put(counter, countertotal.get(counter)+1);
-				System.out.println(countertotal.toString());
+				countertotal.put(counter, (countertotal.get(counter)+1));
 			}
 
 
@@ -428,7 +422,7 @@ public class Logic {
 		System.out.println(countertotal.toString());
 
 
-		return counter;
+		return countertotal;
 	}
 
 

@@ -2,6 +2,7 @@ package shot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,22 +19,24 @@ public class Heuristic {
 	public Heuristic(){		
 
 		game = new Logic();
-		
-		game.CountLines();		
-		
 
-		solution = new Stack<Map<Integer,Integer>>();		
 
-		checkplay(game);
-		
-		playslist = new ArrayList<Map<Integer,Integer>>(solution);	
-		
-		for(int i=0; i<playslist.size();i++){
-			System.out.println(playslist.get(i).toString());
-		}
-		
-		System.out.printf("%d\n",game.movepriority.size());	
-		
+		solution = new Stack<Map<Integer,Integer>>();
+
+		playslist = new ArrayList<Map<Integer,Integer>>(solution);		
+
+		Map<Map<String, Integer>,Integer> lines= game.CountLines();
+		System.out.println("AQUI");
+
+		Iterator it = lines.entrySet().iterator();
+
+		while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry)it.next();
+			System.out.println(pairs.getKey() + " = " + pairs.getValue());
+			it.remove(); // avoids a ConcurrentModificationException
+		}		
+
+		checkplay(game,lines);
 
 	}
 
@@ -46,11 +49,34 @@ public class Heuristic {
 
 	}
 
-	public boolean checkplay(Logic game){
+	public boolean checkplay(Logic game,Map<Map<String, Integer>,Integer> heuristic){
 
-		Map<Integer,Integer> play = new HashMap<Integer, Integer>();
+		Iterator it = heuristic.entrySet().iterator();
+		Map<String, Integer> line=new HashMap<String, Integer>() ;
+		int counter=0;
+
+		while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry)it.next();
+			//System.out.println(pairs.getKey() + " = " + pairs.getValue());
+			if((Integer)pairs.getValue() ==0 || (Integer)pairs.getValue()>counter){
+				line = (Map<String, Integer>)pairs.getKey();
+				counter = (Integer)pairs.getValue();
+			}
+			
+			it.remove(); // avoids a ConcurrentModificationException
+		}
+		System.out.println("Linhas maximas");
+		System.out.println(line.toString());
+		System.out.println(counter);
+
+
+
+
+		Map<Integer,Integer> play = new HashMap<Integer, Integer>();	
+
 
 		for(int i=0; i<4;i++){
+
 
 			if(game.checknextball(i, 0)){
 				play.clear();
@@ -59,16 +85,16 @@ public class Heuristic {
 				solution.add(play);		
 
 				if(!game.GameOver()){
-								
-					checkplay(game);
+					Map<Map<String, Integer>,Integer> heuristic2 = game.CountLines();
+					checkplay(game,heuristic2);
 					if(end){
 						return true;
 					}
 					solution.pop();				
-					
-					
+
+
 				}else{
-					
+
 					end= true;
 					return true;
 				}
@@ -78,20 +104,21 @@ public class Heuristic {
 				play.put(i, 1);
 				game.moveBallbot(i, 1);
 				solution.add(play);
-				
+
 
 				if(!game.GameOver()){
 					//game.moveBallbot(i, 1);
-											
-					checkplay(game);
+
+					Map<Map<String, Integer>,Integer> heuristic2 = game.CountLines();
+					checkplay(game,heuristic2);
 					if(end){
 						return true;
 					}
 					solution.pop();
-					
-					
+
+
 				}else{
-					
+
 					end= true;
 					return true;
 				}
@@ -101,20 +128,21 @@ public class Heuristic {
 				play.put(i, 2);
 				game.moveBallbot(i, 2);
 				solution.add(play);
-				
-				
+
+
 
 				if(!game.GameOver()){
 					//game.moveBallbot(i, 2);
-										
-					checkplay(game);
+
+					Map<Map<String, Integer>,Integer> heuristic2 = game.CountLines();
+					checkplay(game,heuristic2);
 					if(end){
 						return true;
 					}
 					solution.pop();
-					
+
 				}else{
-					
+
 					end= true;
 					return true;
 				}
@@ -124,19 +152,20 @@ public class Heuristic {
 				play.put(i, 3);
 				game.moveBallbot(i, 3);
 				solution.add(play);
-				
+
 
 				if(!game.GameOver()){
 					game.moveBallbot(i, 3);
-									
-					checkplay(game);
+
+					Map<Map<String, Integer>,Integer> heuristic2 = game.CountLines();
+					checkplay(game,heuristic2);
 					if(end){
 						return true;
 					}
 					solution.pop();
-					
+
 				}else{
-					
+
 					end= true;
 					return true;
 				}

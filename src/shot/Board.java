@@ -67,7 +67,7 @@ public class Board extends JPanel implements ActionListener {
 		super.paint(g);
 
 		Graphics2D g2d = (Graphics2D)g;
-		for(int i=0;i<logic.balls.length;i++){
+		for(int i=0;i<4;i++){
 			
 
 			g2d.drawImage(logic.balls[i].getImage(), logic.balls[i].dx, logic.balls[i].dy, this);
@@ -90,7 +90,7 @@ public class Board extends JPanel implements ActionListener {
 			System.out.println("Entrou");
 			int x = me.getPoint().x;
 			int y = me.getPoint().y;
-			for (int i=0; i<logic.balls.length;i++){	
+			for (int i=0; i<4;i++){	
 
 				if(Math.abs(logic.balls[i].getX()-x)<=50 &&Math.abs(logic.balls[i].getY() - y)<=50){
 					logic.selectedball=i;
@@ -127,7 +127,12 @@ public class Board extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// definir aqui o movimento
 		//logic.checkplay(logic.game);
-		logic.move();
+		if(logic.GameOver()){
+			
+			this.hide();			
+		}else{
+			logic.move();
+		}
 	}
 
 
