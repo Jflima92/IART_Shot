@@ -394,33 +394,33 @@ public class Logic {
 		Map<Map<String, Integer>,Integer> countertotal = new HashMap<Map<String, Integer>,Integer>();		
 
 		for(int i =0; i<balls.length; i++){
-			counter= new HashMap<String, Integer>();
-			counter.put("x", balls[i].getX());
-			
-			if(!countertotal.containsKey(counter)){	
-								
-				countertotal.put(counter, 1);
+			if(balls[i].getActive()){
+				counter= new HashMap<String, Integer>();
+				counter.put("x", balls[i].getX());
 
-			}else{
-			
-				countertotal.put(counter, (countertotal.get(counter))+1);
-				
-			}
-			
-			counter= new HashMap<String, Integer>();
-			counter.put("y", balls[i].getY());
-			
-			if(!countertotal.containsKey(counter)){
-				countertotal.put(counter, 1);
-			}else{
-				countertotal.put(counter, (countertotal.get(counter)+1));
-			}
+				if(!countertotal.containsKey(counter)){	
 
+					countertotal.put(counter, 1);
+
+				}else{
+
+					countertotal.put(counter, (countertotal.get(counter))+1);
+
+				}
+
+				counter= new HashMap<String, Integer>();
+				counter.put("y", balls[i].getY());
+
+				if(!countertotal.containsKey(counter)){
+					countertotal.put(counter, 1);
+				}else{
+					countertotal.put(counter, (countertotal.get(counter)+1));
+				}
+
+
+			}
 
 		}
-		
-		System.out.println(countertotal.toString());
-
 
 		return countertotal;
 	}
